@@ -1,0 +1,156 @@
+:backend: revealjs
+:revealjs_history: true
+:imagesdir: images
+:data-uri:
+
+== Introduction to
+image:gradle_logo.png[Gradle Logo]
+
+Jon Bettinger
+
+== My history with build scripts
+[NOTE.speaker]
+--
+Ant to Gant to Gradle
+--
+
+== Polls
+
+[%step]
+* Poll: Who is familiar with ant?
+* Poll: Who is familiar with maven?
+* Poll: Who is familiar with gradle?
+* Poll: Who is familiar with groovy?
+
+== Installing
+
+The wrapper
+[NOTE.speaker]
+--
+Ant to Gant to Gradle
+--
+
+
+== The power of ant
+
+* Easy to customize
+* Many community plugins
+* Good vendor support
+
+== The problems of ant
+
+* Not DRY
+** Tasks have few defaults
+** Task dependencies are always explicit
+** No default tasks
+** Which version of ant?
+* Dependency management
+* IDE integration lacking (classpath)
+* XML as code !!
+
+== The power of Maven
+
+* DRY
+* Consistent defaults
+* Goals dependencies built in
+* Dependency management
+* IDE integration good
+* Many community plugins
+* Good vendor support
+
+== The problems of Maven
+
+* Learning curve
+* Goal discovery
+* Hard to customize
+** Goal dependencies built in
+** The Maven Way™
+* More XML !!
+
+== Gradle to the Rescue
+
+* DRY: Sensible defaults
+* Tasks dependencies built in, but customizable
+* Flexible Dependency Management
+* IDE integration
+* Many community Plugins
+* Easy custom Plugins
+* Built in task documentation
+* Incremental tasks (that actually work)
+* No XML required !!
+
+== Terms
+
+[options="header"]
+|=====================
+|Ant     |Maven   |Gradle
+|Project |Project |Project
+|Target  |Goal    |Task
+|Task    |Phase?  |Task
+|Plugin  |Plugin  |Plugin
+|=====================
+
+== Projects and tasks
+
+* Tasks dependencies
+
+== DEMO: Simple tasks
+
+* Using Ant tasks
+* Dynamic tasks
+* Marker tasks (like ant targets)
+
+== The DRY of maven, aka convention over configuration
+
+== Java plugin
+
+== War plugin
+
+== Dependency management
+
+* ivy
+* maven
+* directory
+
+== Gradle lifecycle
+== Initialization
+Gradle supports single and multi-project builds. During the
+initialization phase, Gradle determines which projects are going to take
+part in the build, and creates a Project instance for each of these
+projects.
+
+== Configuration
+
+During this phase the project objects are configured. The build scripts
+of all projects which are part of the build are executed.
+
+== Execution
+
+Based on the task name arguments passed, Gradle determines the subset of
+the tasks. Gradle then executes each of the selected tasks.
+
+== Customizing
+
+== Settings file
+
+== Init scripts
+
+== Lifecycle listening
+
+== Multi-project builds
+
+[NOTE.speaker]
+--
+My notes about multip project builds
+--
+
+== Custom Plugins
+
+Heading 2
+Heading 3
+Heading 4?
+
+== Conversion from ...
+
+* Ant
+* Maven
