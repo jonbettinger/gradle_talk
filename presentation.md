@@ -1,5 +1,4 @@
-<image style='width:80%;height:80%' src='images/gradle_logo.jpg'/>
-# Introduction to Gradle
+# Introduction to <img src='images/gradle_logo.png' style='border:none'/>
 ## Jon Bettinger
 
 
@@ -101,3 +100,8 @@ Notes: My notes about multip project builds
 ## Heading 2
 ### Heading 3
 #### Heading 4?
+
+---
+# Conversion from ...
+Ant
+Maven
