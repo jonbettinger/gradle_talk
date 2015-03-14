@@ -7,6 +7,7 @@
 image:gradle_logo.png[Gradle Logo]
 
 Jon Bettinger
+@jonbettinger
 
 == My history with build scripts
 [NOTE.speaker]
@@ -17,17 +18,23 @@ Ant to Gant to Gradle
 == Polls
 
 [%step]
-* Poll: Who is familiar with ant?
-* Poll: Who is familiar with maven?
-* Poll: Who is familiar with gradle?
-* Poll: Who is familiar with groovy?
+* Who is familiar with ant?
+* Who is familiar with maven?
+* Who is familiar with gradle?
+* Who is familiar with groovy?
 
 == Installing
 
-The wrapper
+* JDK 1.5+
+* Groovy included
+* Set GRADLE_HOME environment variable
+* Add $GRADLE_HOME/bin to path
+* Supports JAVA_OPTS and GRADLE_OPTS
+
 [NOTE.speaker]
 --
-Ant to Gant to Gradle
+gvm
+The wrapper
 --
 
 
@@ -69,15 +76,21 @@ Ant to Gant to Gradle
 
 == Gradle to the Rescue
 
-* DRY: Sensible defaults
-* Tasks dependencies built in, but customizable
-* Flexible Dependency Management
-* IDE integration
-* Many community Plugins
-* Easy custom Plugins
-* Built in task documentation
-* Incremental tasks (that actually work)
-* No XML required !!
+[format="dsv",cols="2"]
+|=====================
+DRY\: Sensible defaults 
+Conventions
+Tasks dependencies built in
+Dependency Management
+IDE integration
+Many community plugins
+Easy custom plugins
+Built in task documentation
+Everything customizable
+Incremental tasks
+No XML required !!
+And more...
+|=====================
 
 == Terms
 
@@ -101,6 +114,9 @@ Ant to Gant to Gradle
 * Marker tasks (like ant targets)
 
 == The DRY of maven, aka convention over configuration
+* Copy a file conditionally
+* 2 jars from one project (Android)
+* Generated source code
 
 == Java plugin
 
@@ -154,3 +170,14 @@ Heading 4?
 
 * Ant
 * Maven
+
+Daemon
+
+== Don't take my word for it
+* Hibernate https://developer.jboss.org/wiki/GradleWhy?_sscc=t
+* Spring
+* Grails
+* Netflix
+
+== Resources
+
