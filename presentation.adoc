@@ -1,5 +1,6 @@
 :backend: revealjs
 :revealjs_history: true
+:revealjs_progress: false
 :imagesdir: images
 :data-uri:
 
@@ -7,6 +8,7 @@
 image:gradle_logo.png[Gradle Logo]
 
 Jon Bettinger
+
 @jonbettinger
 
 == My history with build scripts
@@ -34,8 +36,57 @@ Ant to Gant to Gradle
 [NOTE.speaker]
 --
 gvm
-The wrapper
+The wrapper and enterprise customization
 --
+
+== Simple Task
+
+.build.gradle
+--------------
+task helloWorld << {
+	println 'Hello World!'
+}
+--------------
+
+--------------
+gradle -q helloWorld
+Hello World!
+--------------
+
+[NOTE.speaker]
+--
+println
+Groovy strings
+leftShift operator overload
+project as delegate
+quiet mode
+--
+
+== More Simple Tasks
+
+.build.gradle
+--------------
+task hello << {
+	print 'Hello'
+}
+task world(dependsOn: hello) << {
+	print 'World'
+}
+world.doFirst {
+	print ' '
+}
+world.doLast {
+	print '!'
+}
+world << {
+	println ''
+}
+--------------
+
+--------------
+gradle -q world
+Hello World!
+--------------
 
 
 == The power of ant

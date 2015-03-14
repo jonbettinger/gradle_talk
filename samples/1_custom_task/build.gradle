@@ -1,0 +1,19 @@
+task hello << {
+	print 'Hello'
+}
+
+task world(dependsOn: hello) << {
+	print 'World'
+}
+
+world.doFirst {
+	print ' '
+}
+
+world.doLast {
+	print '!'
+}
+
+world << {
+	println ''
+}
