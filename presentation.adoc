@@ -17,13 +17,130 @@ Jon Bettinger
 Ant to Gant to Gradle
 --
 
-== Polls
+== The Chaos Years
 
-[%step]
-* Who is familiar with ant?
-* Who is familiar with maven?
-* Who is familiar with gradle?
-* Who is familiar with groovy?
+* Make
+* Custom scripting
+
+== Ant
+"Another Neat Tool"
+
+James Duncan Davidson 
+
+First release July 19, 2000
+
+=== The power of ant
+
+* Portable!
+* Common tasks built in
+* Easy to customize
+* Many community plugins
+* Good vendor support
+
+=== The problems of ant
+
+* Not DRY
+** Tasks have few defaults
+** Task dependencies are always explicit
+** No default tasks
+* Upgrading
+* No Dependency management
+* Manual installation of third party plugins
+* IDE integration lacking (classpath)
+* XML as code !!
+
+== Maven
+
+Jason van Zyl
+
+First released 2002
+
+Maven 2 released in 2005
+
+Maven 3 released in 2010
+
+=== The power of Maven
+
+* Convention over configuration - The Maven Way™
+* Consistent defaults
+* Goal dependencies built in
+* Dependency management
+* IDE integration good
+* Many community plugins
+* Good vendor support
+
+[NOTE.speaker]
+--
+Inspiration for Ivy
+--
+
+=== The problems of Maven
+
+* Learning curve
+* Goal discovery
+* Hard to customize
+** Goal dependencies built in
+** The Maven Way™
+* More XML !!
+
+== Gant
+
+A groovy wrapper for Ant tasks
+
+First released in 2007
+
+=== Gant Sample
+
+------------------
+includeTargets << gant.targets.Clean
+cleanDirectory << 'build'
+
+target(stuff: 'A target to do some stuff.') {
+  println 'Stuff'
+  depends clean
+  echo message: 'A default message from Ant.'
+  otherStuff()
+}
+
+target(otherStuff: 'A target to do some other stuff') {
+  println 'OtherStuff'
+  echo message: 'Another message from Ant.'
+  clean()
+}
+
+setDefaultTarget stuff
+------------------
+
+== Gradle to the Rescue
+
+First released in 2009
+
+Release 1.0 in 2012
+
+=== Gradle Features
+
+[format="dsv",cols="2"]
+|=====================
+DRY\: Sensible defaults 
+Conventions
+Tasks dependencies built in
+Dependency Management
+IDE integration
+Many community plugins
+Easy custom plugins
+Built in task documentation
+Everything customizable
+Incremental tasks
+No XML required !!
+And more...
+|=====================
+
+[NOTE.speaker]
+--
+Copy a file conditionally
+2 jars from one project (Android)
+Generated source code
+--
 
 == Installing
 
@@ -31,15 +148,17 @@ Ant to Gant to Gradle
 * Groovy included
 * Set GRADLE_HOME environment variable
 * Add $GRADLE_HOME/bin to path
-* Supports JAVA_OPTS and GRADLE_OPTS
 
 [NOTE.speaker]
 --
+Supports JAVA_OPTS and GRADLE_OPTS
 gvm
 The wrapper and enterprise customization
 --
 
-== Simple Task
+== Custom Tasks
+
+=== Simple Task
 
 .build.gradle
 --------------
@@ -55,14 +174,16 @@ Hello World!
 
 [NOTE.speaker]
 --
+project as delegate
+metaobject hellowWorld
+leftShift operator overload
 println
 Groovy strings
-leftShift operator overload
-project as delegate
 quiet mode
+Take questions
 --
 
-== More Simple Tasks
+=== Simple Customizations
 
 .build.gradle
 --------------
@@ -84,64 +205,15 @@ world << {
 --------------
 
 --------------
+gradle -q hello
+Hello
+--------------
+
+--------------
 gradle -q world
 Hello World!
 --------------
 
-
-== The power of ant
-
-* Easy to customize
-* Many community plugins
-* Good vendor support
-
-== The problems of ant
-
-* Not DRY
-** Tasks have few defaults
-** Task dependencies are always explicit
-** No default tasks
-** Which version of ant?
-* Dependency management
-* IDE integration lacking (classpath)
-* XML as code !!
-
-== The power of Maven
-
-* DRY
-* Consistent defaults
-* Goals dependencies built in
-* Dependency management
-* IDE integration good
-* Many community plugins
-* Good vendor support
-
-== The problems of Maven
-
-* Learning curve
-* Goal discovery
-* Hard to customize
-** Goal dependencies built in
-** The Maven Way™
-* More XML !!
-
-== Gradle to the Rescue
-
-[format="dsv",cols="2"]
-|=====================
-DRY\: Sensible defaults 
-Conventions
-Tasks dependencies built in
-Dependency Management
-IDE integration
-Many community plugins
-Easy custom plugins
-Built in task documentation
-Everything customizable
-Incremental tasks
-No XML required !!
-And more...
-|=====================
 
 == Terms
 
@@ -158,51 +230,77 @@ And more...
 
 * Tasks dependencies
 
-== DEMO: Simple tasks
+== Using Ant Tasks
 
-* Using Ant tasks
-* Dynamic tasks
-* Marker tasks (like ant targets)
+-------------------
+TODO: A gradle script using Ant
+-------------------
 
 == The DRY of maven, aka convention over configuration
-* Copy a file conditionally
-* 2 jars from one project (Android)
-* Generated source code
 
-== Java plugin
+=== Java plugin
 
-== War plugin
+-------------------
+apply plugin: java
+-------------------
 
-== Dependency management
+-------------------
+gradle tasks
+TODO output
+-------------------
+
+[NOTE.speaker]
+--
+Marker tasks
+--
+
+=== War plugin
+
+-------------------
+apply plugin: war
+-------------------
+
+-------------------
+gradle tasks
+TODO output
+-------------------
+
+=== Dependency management
 
 * ivy
 * maven
 * directory
 
 == Gradle lifecycle
-== Initialization
+
+=== Initialization
 Gradle supports single and multi-project builds. During the
 initialization phase, Gradle determines which projects are going to take
 part in the build, and creates a Project instance for each of these
 projects.
 
-== Configuration
+=== Configuration
 
 During this phase the project objects are configured. The build scripts
 of all projects which are part of the build are executed.
 
-== Execution
+=== Execution
 
 Based on the task name arguments passed, Gradle determines the subset of
 the tasks. Gradle then executes each of the selected tasks.
 
-== Customizing
+== Customizing the Installation
 
-== Settings file
+* Using the wrapper
+* Init scripts
+* gradle.properties
+* settings.gradle
+
+== The Gradle Wrapper
 
 == Init scripts
 
-== Lifecycle listening
+== Settings file
 
 == Multi-project builds
 
@@ -213,6 +311,8 @@ My notes about multip project builds
 
 == Custom Plugins
 
+== Lifecycle listening
+
 Heading 2
 Heading 3
 Heading 4?
@@ -222,7 +322,7 @@ Heading 4?
 * Ant
 * Maven
 
-Daemon
+== Gradle Daemon
 
 == Don't take my word for it
 * Hibernate https://developer.jboss.org/wiki/GradleWhy?_sscc=t
@@ -231,4 +331,12 @@ Daemon
 * Netflix
 
 == Resources
+
+== Polls
+
+[%step]
+* Who is familiar with ant?
+* Who is familiar with maven?
+* Who is familiar with gradle?
+* Who is familiar with groovy?
 
