@@ -311,6 +311,67 @@ gradle hello
 BUILD SUCCESSFUL
 -------------------
 
+=== Ant Custom Task
+
+-------------------
+task check << {
+    ant.taskdef(resource: 'checkstyletask.properties') {
+        classpath {
+            fileset(dir: 'libs', includes: '*.jar')
+        }
+    }
+    ant.checkstyle(config: 'checkstyle.xml') {
+        fileset(dir: 'src')
+    }
+}
+-------------------
+
+=== Ant Custom Task
+
+-------------------
+configurations {
+    pmd
+}
+dependencies {
+    pmd group: 'pmd', name: 'pmd', version: '4.2.5'
+}
+task check << {
+    ant.taskdef(name: 'pmd',
+                classname: 'net.sourceforge.pmd.ant.PMDTask',
+                classpath: configurations.pmd.asPath)
+    ant.pmd(shortFilenames: 'true',
+            failonruleviolation: 'true',
+            rulesetfiles: file('pmd-rules.xml').toURI().toString()) {
+        formatter(type: 'text', toConsole: 'true')
+        fileset(dir: 'src')
+    }
+}
+-------------------
+
+=== Ant Import
+
+.build.gradle
+-------------------
+ant.importBuild 'build.xml'
+-------------------
+
+.build.xml
+-------------------
+<project>
+    <target name="hello">
+        <echo>Hello, from Ant</echo>
+    </target>
+</project>
+-------------------
+
+-------------------
+gradle hello
+:hello
+[ant:echo] Hello, from Ant
+
+BUILD SUCCESSFUL
+-------------------
+
 == The DRY of maven, aka convention over configuration
 
 
