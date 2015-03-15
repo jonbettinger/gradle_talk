@@ -3,8 +3,10 @@
 :revealjs_progress: false
 :imagesdir: images
 :data-uri:
+:toc:
 
 == Introduction to
+
 image:gradle_logo.png[Gradle Logo]
 
 Jon Bettinger
@@ -76,11 +78,11 @@ Inspiration for Ivy
 
 === The problems of Maven
 
-* Learning curve
-* Goal discovery
 * Hard to customize
 ** Goal dependencies built in
 ** The Maven Way™
+* Learning curve
+* Goal discovery
 * More XML !!
 
 == Gant
@@ -174,13 +176,13 @@ Hello World!
 
 [NOTE.speaker]
 --
-project as delegate
-metaobject hellowWorld
-leftShift operator overload
-println
-Groovy strings
-quiet mode
-Take questions
+ project as delegate
+ metaobject helloWorld
+ leftShift operator overload
+ println
+ Groovy strings
+ quiet mode
+ Take questions
 --
 
 === Simple Customizations
@@ -276,23 +278,50 @@ To see all tasks and more detail, run with --all.
 
 [NOTE.speaker]
 --
+Rules
+--
+
+=== Building a Java Project
+
+---------------------
+gradle clean build
+:clean
+:compileJava
+:processResources UP-TO-DATE
+:classes
+:jar
+:assemble
+:compileTestJava
+:processTestResources UP-TO-DATE
+:testClasses
+:test
+:check
+:build
+
+BUILD SUCCESSFUL
+---------------------
+
+[NOTE.speaker]
+--
 Marker tasks
 --
 
-=== War plugin
+=== Using Rules
 
 -------------------
-apply plugin: war
+apply plugin: 'java'
 -------------------
 
 -------------------
-gradle tasks
-TODO output
+gradle --dry-run uploadRuntime
+:compileJava SKIPPED
+:processResources SKIPPED
+:classes SKIPPED
+:jar SKIPPED
+:uploadRuntime SKIPPED
+
+BUILD SUCCESSFUL
 -------------------
-
-== Projects and tasks
-
-* Tasks dependencies
 
 == Using Ant Tasks
 
@@ -326,28 +355,6 @@ task check << {
 }
 -------------------
 
-=== Ant Custom Task
-
--------------------
-configurations {
-    pmd
-}
-dependencies {
-    pmd group: 'pmd', name: 'pmd', version: '4.2.5'
-}
-task check << {
-    ant.taskdef(name: 'pmd',
-                classname: 'net.sourceforge.pmd.ant.PMDTask',
-                classpath: configurations.pmd.asPath)
-    ant.pmd(shortFilenames: 'true',
-            failonruleviolation: 'true',
-            rulesetfiles: file('pmd-rules.xml').toURI().toString()) {
-        formatter(type: 'text', toConsole: 'true')
-        fileset(dir: 'src')
-    }
-}
--------------------
-
 === Ant Import
 
 .build.gradle
@@ -372,14 +379,53 @@ gradle hello
 BUILD SUCCESSFUL
 -------------------
 
-== The DRY of maven, aka convention over configuration
+=== Ant Custom Task
 
+-------------------
+configurations {
+    pmd
+}
+dependencies {
+    pmd group: 'pmd', name: 'pmd', version: '4.2.5'
+}
+task check << {
+    ant.taskdef(name: 'pmd',
+                classname: 'net.sourceforge.pmd.ant.PMDTask',
+                classpath: configurations.pmd.asPath)
+    ant.pmd(shortFilenames: 'true',
+            failonruleviolation: 'true',
+            rulesetfiles: file('pmd-rules.xml').toURI().toString()) {
+        formatter(type: 'text', toConsole: 'true')
+        fileset(dir: 'src')
+    }
+}
+-------------------
+
+[NOTE.speaker]
+--
+ Alternate group, name, version format
+ Leading into configurations
+--
+
+== Projects and tasks
+
+== Configurations
+
+A Configuration represents a group of artifacts and their dependencies. 
+
+=== Java Configurations
+
+image:javaPluginConfigurations.png[Configurations and SourceSets]
 
 === Dependency management
 
 * ivy
 * maven
 * directory
+
+=== Custom Configurations
+
+TODO: Custom configuration showing asPath
 
 == Gradle lifecycle
 
@@ -399,38 +445,105 @@ of all projects which are part of the build are executed.
 Based on the task name arguments passed, Gradle determines the subset of
 the tasks. Gradle then executes each of the selected tasks.
 
-== Customizing the Installation
-
-* Using the wrapper
-* Init scripts
-* gradle.properties
-* settings.gradle
-
-== The Gradle Wrapper
-
-== Init scripts
-
-== Settings file
-
 == Multi-project builds
+
+=== Layout
+
+* Traditional
+* Flat
+
+=== Sample Settings File
+
+TODO settings.gradle
 
 [NOTE.speaker]
 --
-My notes about multip project builds
+master directory
 --
 
+== Customizing the Installation
+
+* Using the wrapper
+* Initialization scripts
+* gradle.properties
+
+== The Gradle Wrapper
+
+* Generates Windows and shell scripts
+* Uses a defined version of Gradle
+* Provides repeatable builds over time
+* Team members do not need to install Gradle
+
+== Initialization Scripts
+
+* a.k.a. init scripts
+* Run before the build starts. 
+
+=== Init Script Locations
+
+* Command line --init-script <path>
+* init.gradle in USER_HOME/.gradle/
+* *.gradle in USER_HOME/.gradle/init.d/
+* *.gradle in GRADLE_HOME/init.d/
+
+=== Init Script Use Cases
+
+* Set up enterprise-wide configuration, such as where to find custom plugins.
+* Set up properties based on the current environment, such as a developer's machine vs. a continuous integration server.
+* Supply personal information about the user that is required by the build, such as repository or database authentication credentials.
+* Define machine specific details, such as where JDKs are installed.
+* Register build listeners.
+* Register build loggers.
+
+=== Init Script Sample
+
+.Sample Init Script
+----------------------
+allprojects {
+    repositories {
+        maven {
+            name 'STANDARD_ENTERPRISE_REPO'
+            url 'http://host.company.com/some/repo'
+        }
+    }
+}
+----------------------
+
+== gradle.properties
+
+A simple way to define per computer settings
+
+* Use daemon
+* Proxy
+* JDK location
+
+== Gradle Init Task
+
+?
+
 == Custom Plugins
+
+* Plugin Class
+* Configuration Class
+* Tasks
+
+=== Plugin Class
+
+TODO
+
+=== Configuration Class
+
+TODO
+
+=== Tasks
+
+TODO
 
 == Lifecycle listening
 
 Heading 2
 Heading 3
 Heading 4?
-
-== Conversion from ...
-
-* Ant
-* Maven
 
 == Gradle Daemon
 
@@ -442,11 +555,21 @@ Heading 4?
 
 == Resources
 
-== Polls
+http://gradle.org/
 
-[%step]
-* Who is familiar with ant?
-* Who is familiar with maven?
-* Who is familiar with gradle?
-* Who is familiar with groovy?
+http://plugins.gradle.org/
 
+https://github.com/nebula-plugins
+
+http://www.gradleware.com/
+
+http://www.sinking.in/blog/provided-scope-in-gradle/
+
+@jonbettinger
+
+jonbettinger@gmail.com
+
+[NOTE.speaker]
+--
+Free ebook
+--
