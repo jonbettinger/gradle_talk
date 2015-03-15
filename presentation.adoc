@@ -297,7 +297,18 @@ TODO output
 == Using Ant Tasks
 
 -------------------
-TODO: A gradle script using Ant
+task hello << {
+    String greeting = 'Hello World!'
+    ant.echo(message: greeting)
+}
+-------------------
+
+-------------------
+gradle hello
+:hello
+[ant:echo] Hello World!
+
+BUILD SUCCESSFUL
 -------------------
 
 == The DRY of maven, aka convention over configuration
