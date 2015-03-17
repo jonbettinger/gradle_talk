@@ -458,6 +458,7 @@ TODO settings.gradle
 
 [NOTE.speaker]
 --
+Always include settings.gradle
 master directory
 --
 
@@ -539,19 +540,25 @@ TODO
 
 TODO
 
+=== Register
+
+TODO
+
+=== Custom Plugin Tips
+
+* Focused
+* Bundle
+TODO
+
 == Lifecycle listening
 
-Heading 2
-Heading 3
-Heading 4?
+* task graph ready
+* when task added
+TODO
 
 == Gradle Daemon
 
-== Don't take my word for it
-* Hibernate https://developer.jboss.org/wiki/GradleWhy?_sscc=t
-* Spring
-* Grails
-* Netflix
+== Questions?
 
 == Resources
 
@@ -573,3 +580,6 @@ jonbettinger@gmail.com
 --
 Free ebook
 --
+
+
+TODO Uploading to maven, group, artifact, verison, classifier?
