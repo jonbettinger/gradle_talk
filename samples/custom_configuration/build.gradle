@@ -1,0 +1,14 @@
+repositories {
+	mavenCentral()
+}
+configurations {
+	pmd
+}
+dependencies {
+	pmd 'pmd:pmd:4.2.5'
+}
+task showPmd {
+	configurations.pmd.each { File f ->
+		println f.name
+	}
+}

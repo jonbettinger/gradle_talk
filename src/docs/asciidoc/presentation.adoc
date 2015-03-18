@@ -3,7 +3,6 @@
 :revealjs_progress: false
 :imagesdir: images
 :data-uri:
-:toc:
 
 == Introduction to
 
@@ -425,7 +424,39 @@ image:javaPluginConfigurations.png[Configurations and SourceSets]
 
 === Custom Configurations
 
-TODO: Custom configuration showing asPath
+.build.gradle
+----------------------
+repositories {
+    mavenCentral()
+}
+configurations {
+    pmd
+}
+dependencies {
+    pmd 'pmd:pmd:4.2.5'
+}
+task showPmd {
+    configurations.pmd.each { File f ->
+        println f.name
+    }
+}
+----------------------
+----------------------
+gradle -q showPmd
+pmd-4.2.5.jar
+ant-1.6.jar
+jaxen-1.1.1.jar
+asm-3.1.jar
+junit-4.4.jar
+dom4j-1.6.1.jar
+jdom-1.0.jar
+xercesImpl-2.6.2.jar
+xom-1.0.jar
+xmlParserAPIs-2.6.2.jar
+xalan-2.6.0.jar
+icu4j-2.6.1.jar
+xml-apis-2.0.2.jar
+----------------------
 
 == Gradle lifecycle
 
@@ -486,7 +517,7 @@ water/
 
 .settings.gradle
 -------
-include 'bluewhale', 'krill'
+includeFlat 'bluewhale', 'krill'
 -------
 
 [NOTE.speaker]
@@ -495,6 +526,14 @@ Always include settings.gradle
 master directory
 --
 
+== Project Dependencies
+
+.krill build.gradle
+------------
+dependencies {
+    compile project(':bluewhale')
+}
+------------
 == Customizing the Installation
 
 * Using the wrapper
@@ -551,45 +590,145 @@ A simple way to define per computer settings
 * Proxy
 * JDK location
 
-== Gradle Init Task
+== Gradle Init Plugin
 
-?
+* Adds wrapper task
+* Converts pom.xml to build.gradle
+** Supports sing and multimodule projects
+** Generates generate metadata (id, description, version)
+** Applies maven, java, and war plugins as needed
+** Generates dependencies
+** Generates repositories
+** Supports Maven enforcer plugin exclusions
 
 == Custom Plugins
 
 * Plugin Class
-* Configuration Class
+* Extension Class
 * Tasks
+
+=== A Trivial Plugin
+
+.GreetingPlugin.groovy
+---------------
+class GreetingPlugin implements Plugin<Project> {
+    void apply(Project project) {
+        project.task('hello') << {
+            println "Hello from the GreetingPlugin"
+        }
+    }
+}
+---------------
+
+[NOTE.speaker]
+--
+buildSrc
+--
+
+=== Extension Class
+
+.MessageExtension.groovy
+-------------
+package example.plugin.gradle;
+
+import org.gradle.api.*;
+
+class MessageExtension {
+    String message = 'Default message'
+    String sender = 'Default sender'
+}
+-------------
+
+=== Custom Task Class
+
+.MessageTask.groovy
+-------------
+package example.plugin.gradle;
+
+import org.gradle.api.DefaultTask
+import org.gradle.api.tasks.TaskAction
+
+class MessageTask extends DefaultTask {
+
+    @TaskAction
+    def showMessage() {
+        println "From : ${project.greeting.sender}, message : ${project.greeting.message}"
+    }
+}
+-------------
 
 === Plugin Class
 
-TODO
+.MessagePlugin.groovy
+-------------
+package example.plugin.gradle;
 
-=== Configuration Class
+import org.gradle.api.*;
 
-TODO
-
-=== Tasks
-
-TODO
+class MessagePlugin implements Plugin {
+    def void apply(Project project) {
+           project.extensions.create('greeting', MessageExtension)
+           project.task('message', type: MessageTask)
+    }
+}
+-------------
 
 === Register
 
-TODO
+.META-INF/gradle-plugins/message.properties
+----------------
+implementation-class=example.plugin.gradle.MessagePlugin
+----------------
+
+=== Upload Plugin
+.build.gradle
+----------------
+apply plugin: 'maven'
+...
+group='example.plugin'   //Group name makes easier to manager the packages.
+version='1.1-SNAPSHOT'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri('../repo'))
+        }
+    }
+}
+----------------
+
+=== Using A Custom Plugin
+
+.build.gradle
+------------
+buildscript {
+    repositories {
+        maven {
+            url uri('../repo')
+        }
+    }
+    dependencies {
+        classpath 'example.plugin:MessagePlugin:1.1-SNAPSHOT'
+    }
+}
+apply plugin: 'message'
+greeting {
+    from = 'Me'
+    to = 'You'
+}
+------------
 
 === Custom Plugin Tips
 
-* Focused
-* Bundle
-TODO
+* Keep Tasks Focused
+* Create Bundles from Focused Plugins
+
+== Gradle Daemon
 
 == Lifecycle listening
 
 * task graph ready
 * when task added
-TODO
-
-== Gradle Daemon
 
 == Questions?
 
@@ -599,11 +738,9 @@ http://gradle.org/
 
 http://plugins.gradle.org/
 
-https://github.com/nebula-plugins
-
 http://www.gradleware.com/
 
-http://www.sinking.in/blog/provided-scope-in-gradle/
+https://github.com/nebula-plugins
 
 @jonbettinger
 
@@ -614,5 +751,3 @@ jonbettinger@gmail.com
 Free ebook
 --
 
-
-TODO Uploading to maven, group, artifact, verison, classifier?

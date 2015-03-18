@@ -454,7 +454,7 @@ the tasks. Gradle then executes each of the selected tasks.
 
 === Sample Settings File
 
-.Traditional Build layout
+.Build layout
 -------
 water/
   build.gradle
@@ -463,25 +463,6 @@ water/
     build.gradle
   krill/
     build.gradle
--------
-
-.settings.gradle
--------
-include 'bluewhale', 'krill'
--------
-
-=== Sample Settings File
-
-.Flat Build layout
--------
-water/
-  bluewhale/
-    build.gradle
-  krill/
-    build.gradle
-  master
-    build.gradle
-    settings.gradle
 -------
 
 .settings.gradle
