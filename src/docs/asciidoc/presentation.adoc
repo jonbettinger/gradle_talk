@@ -725,6 +725,11 @@ greeting {
 
 == Gradle Daemon
 
+* Enable / disable in command line or gradle.properties
+* Saves jvm startup time in development
+* Can occasionally cause problems
+* Stop with gradle --stop
+
 == Lifecycle listening
 
 * task graph ready
@@ -751,3 +756,5 @@ jonbettinger@gmail.com
 Free ebook
 --
 
+ 
+ 
