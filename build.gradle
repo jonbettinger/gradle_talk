@@ -80,9 +80,6 @@ asciidoctor {
 		from (sourceDir) {
 			include 'images'
 		}
-		from (sourceDir) {
-			include 'fonts'
-		}
 		from (downloadDir) {
 			include 'reveal.js/**'
 		}
